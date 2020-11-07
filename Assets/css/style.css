@@ -2,6 +2,9 @@
     background-color: lightblue;
 }
 
+.body{
+    font-family: 'Helvetica','Arial',sans-serif;    
+}
 .city-details {
     visibility: hidden;
 }
@@ -22,8 +25,16 @@
     flex-direction: row;
     flex-wrap: nowrap;
     font-family: 'Helvetica','Arial',sans-serif;
-    margin: 20px;
-    width: 600px;
+    width: 50em;
+}
+#weather-details {
+    color: #222;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    font-family: 'Helvetica','Arial',sans-serif;
+    margin: 0px;
+    width: 50em;
 }
 .card {
     flex-basis: max-content;
@@ -32,7 +43,7 @@
     width: max-content;
     background: palegoldenrod;
     border-radius: 2px;
-    box-shadow:  2px 2px  yellow;
+    box-shadow: 2px 2px 2px 2px  yellow;
     text-align: center;
 }
 .card .title {

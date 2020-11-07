@@ -17,8 +17,9 @@ function searchCity(){
       }
   
     cityName = document.querySelector("#city-nm").value;
- 
+   // If we already have city buttons if this is new one add to the bottom!
     let upperCity = cityName.toUpperCase();
+    let cityN = capitalizeFirstLetter(cityName.toLowerCase());
     if(!cArray.includes(upperCity)){
         storCityList(upperCity);
         if(document.querySelector("#cityChoice")){
@@ -27,7 +28,7 @@ function searchCity(){
             newIn.setAttribute("class","border  q-button city-button");
             newIn.name = cityName;
             newIn.value = cityName;
-            newIn.textContent = cityName;
+            newIn.textContent = cityN;
             newIn.id = cityName.toUpperCase();
             newF.appendChild(newIn);
         } else {
@@ -38,6 +39,7 @@ function searchCity(){
   fetchForecast(cityName);
 }
 
+// This will build the buttons when we start 
 function buildCityButtons(){
     let cityMenu = document.querySelector("#cityButtons");
     let newF = document.createElement("form");
@@ -51,12 +53,14 @@ function buildCityButtons(){
         cArray= JSON.parse(localStorage.getItem("cities"));
         for (let i=0; i < cArray.length; i++){
             let city = cArray[i];
+            let cityN = capitalizeFirstLetter(city.toLowerCase());
+            console.log(cityN);     
             let newIn = document.createElement("button");
             newIn.setAttribute("class","border  q-button city-button");
             newIn.name = city;
             newIn.value = city;
-            newIn.textContent = city;
-            newIn.id = city.toUpperCase();
+            newIn.textContent = cityN;
+            newIn.id = city;
             newF.appendChild(newIn);
          }
             cityMenu.appendChild(newF); 
@@ -108,7 +112,6 @@ function fetchForecast(city){
         fetch(`http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${APIKey}`)
          .then(function(res) { return res.json() }) // Convert data to json
          .then(function(d){
-           console.log(d);
            let uvi=d.value;
            let ubtn = "";
            let newP = document.createElement("div");
@@ -124,16 +127,19 @@ function fetchForecast(city){
       fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${APIKey}`)
       .then(function(res) { return res.json() }) // Convert data to json
       .then(function(d){
+        console.log(d);
+
           let j = document.querySelector('#fiveDay');
           let newD = document.createElement("div");
           newD.setAttribute("id","fiveDayCards");
-          newD.setAttribute("class","row col-12");
-          let newHTML = '<div class="container-fluid text-center">5-Day Forecast</div><div class="col-12 container" id="forecast">'; 
+          newD.setAttribute("class","row");
+          let newHTML = '<div class="container text-center mt-3"><h2>5-Day Forecast<h2></div><div class="container" id="forecast">'; 
           let count = d.cnt;
           for (let i = 3; i < count; i += 8){
             let date = d.list[i].dt_txt.split(" ");
             today = date[0];
-            
+            let dayOfWeek = new Date(date).toLocaleString('en-us', {  weekday: 'long' });
+            let usDay = new Date(date).toLocaleString('en-us', {  dateStyle: 'short' });
             let icon =  `'http://openweathermap.org/img/w/${d.list[i].weather[0].icon}.png'`;
             let temp = d.list[i].main.temp;
             let hum = d.list[i].main.humidity;
@@ -142,7 +148,8 @@ function fetchForecast(city){
           <div class="col rounded">
             <div class="card">
               <div class="card-body">
-                  <p class="title">${today}</p>
+                  <p class="title" style="color: blue;">${dayOfWeek}</p>
+                  <p class="title">${usDay}</p>
                   <p><img class="icon" src=${icon}></p>
                   <p class="temps">Temperature: ${temp} &deg;F</p>
                   <p class="temps">Humidity: ${hum} %</p>
@@ -162,6 +169,17 @@ function fetchForecast(city){
            // http://api.openweathermap.org/data/2.5/uvi?lat={lat}&lon={lon}&appid={API key}
 
             
+function capitalizeFirstLetter(string) {
+    let newString ="";
+    let spString = string.split(" ");
+    for (let i=0; i< spString.length; i++ ){
+        let string1 =  spString[i];
+        let string2 = string1.charAt(0).toUpperCase() + string1.slice(1);
+        newString += string2 + " ";
+    }       
+    return newString;
+}
+          
 
 
 //function - create a localstorage array for that  city and and the city to the cities list
