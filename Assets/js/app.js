@@ -6,15 +6,30 @@ let forecast = [];
 
 // function - get the city name
 function searchCity(){
-    console.log(this);
+
+    if(document.querySelector('#fiveDayCards')){
+        var myobj = document.querySelector('#fiveDayCards');
+        myobj.remove();
+      }
     //create the list of all cities so we can use them
     cityName = document.querySelector("#city-nm").value;
     //sotre City for the next time
     if(!document.querySelector("#"+cityName.toUpperCase())){
         storCityList(cityName);
+        if(document.querySelector("#cityChoice")){
+        newF =document.querySelector("#cityChoice");
+        let newIn = document.createElement("button");
+            newIn.setAttribute("class","border  q-button city-button");
+            newIn.name = cityName;
+            newIn.value = cityName;
+            newIn.textContent = cityName;
+            newIn.id = cityName.toUpperCase();
+            newF.appendChild(newIn);
+        } else {
+            buildCityButtons()
+        }
     }
    //go and fetch the forecast
-  buildCityButtons();
   fetchForecast(cityName);
 }
 
@@ -64,17 +79,25 @@ function buildCityButtons(){
 }
 
 
-function fetchForecast(city){   
+function fetchForecast(city){  
+   if(document.querySelector('#fiveDayCards')){
+        var myobj = document.querySelector('#fiveDayCards');
+        myobj.remove();
+      } 
   let lat=0,lon=0; 
-  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`)
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${APIKey}`)
     .then(function(resp) { return resp.json() }) // Convert data to json
     .then(function(data){
        lat = data.coord.lat;
        lon = data.coord.lon;
-      
+      /*
        var minTemp = (((data.main.temp_min - 273.15) * 9/5) + 32).toFixed(2);
        var maxTemp = (((data.main.temp_max - 273.15) * 9/5) + 32).toFixed(2);
        var currTemp =((( data.main.temp  - 273.15) * 9/5) + 32).toFixed(2);
+      */
+       var minTemp = data.main.temp_min;
+       var maxTemp = data.main.temp_max;
+       var currTemp =data.main.temp;
        
         var newHtml ='<h2 id="cityDetails">' + data.name + "   (" + new Date().toLocaleDateString() + 
          ") <img src='http://openweathermap.org/img/w/"+data.weather[0].icon + ".png'></h2>" +
@@ -88,10 +111,14 @@ function fetchForecast(city){
       .then(function(res) { return res.json() }) // Convert data to json
       .then(function(d){
          let uvi=d.value;
-         let newP = document.createElement("p");
-         newP.innerText = "UV Index: " + uvi;
+         let newP = document.createElement("span");
+         newP.innerText = "UV Index: " 
+         newB = document.createElement("button")
+         newB.setAttribute("class","uv-index");
+         newB.innerText = uvi;
          let j = document.querySelector('#weather-details');
          j.appendChild(newP);
+         j.appendChild(newB);
                 })  
 
       fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${APIKey}`)
@@ -100,6 +127,7 @@ function fetchForecast(city){
           console.log(d)
           let j = document.querySelector('#fiveDay');
           let newD = document.createElement("div");
+          newD.setAttribute("id","fiveDayCards");
           newD.setAttribute("class","row col-12");
           let newHTML = '<div class="container-fluid text-center">5-Day Forecast</div><div class="col-12 container" id="forecast">'; 
           let count = d.cnt;
@@ -147,7 +175,7 @@ function storCityList(city){
 
 function clearHist(){
 localStorage.removeItem("cities");
-locatin.reload();
+location.reload();
 }
 
 
