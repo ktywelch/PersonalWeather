@@ -91,7 +91,6 @@ function fetchForecast(city){
   fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`)
     .then(function(resp) { return resp.json() }) // Convert data to json
     .then(function(data){
-       console.log(data);
        lat = data.coord.lat;
        lon = data.coord.lon;
       
@@ -99,7 +98,8 @@ function fetchForecast(city){
        var maxTemp = (((data.main.temp_max - 273.15) * 9/5) + 32).toFixed(2);
        var currTemp =((( data.main.temp  - 273.15) * 9/5) + 32).toFixed(2);
        
-        var newHtml ='<h2 id="cityDetails">' + data.name + "   " + new Date().toLocaleDateString() + "</h2>" +
+        var newHtml ='<h2 id="cityDetails">' + data.name + "   (" + new Date().toLocaleDateString() + 
+         ") <img src='http://openweathermap.org/img/w/"+data.weather[0].icon + ".png'></h2>" +
            "<p>Temperature</strong>: " + currTemp+ " &deg;F" + "</p>" +
            "<p>Humidity</strong>: " + data.main.humidity + " %" +"</p>" +
            "<p>Wind Speed</strong>: " + data.wind.speed + "mph" +"</p>"  
@@ -114,18 +114,57 @@ function fetchForecast(city){
          newP.innerText = "UV Index: " + uvi;
          let j = document.querySelector('#weather-details');
          j.appendChild(newP);
-                })      
+                })  
+
+      fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${APIKey}`)
+      .then(function(res) { return res.json() }) // Convert data to json
+      .then(function(d){
+          console.log(d)
+          let j = document.querySelector('#fiveDay');
+          let newD = document.createElement("div");
+          newD.setAttribute("class","row col-12");
+          let newHTML = " <h3>5-Day Forecast</h3>"; 
+          let count = d.cnt;
+          for (let i = 3; i < count; i += 8){
+            let date = d.list[i].dt_txt.split(" ");
+            today = date[0];
+            console.log(today);
+            let DoW = new Intl.DateTimeFormat('en-US', {weekday: 'long'}).format(new Date(today).getDay());
+            let icon =  `'http://openweathermap.org/img/w/${d.list[i].weather[0].icon}.png'`;
+            let temp = d.list[i].main.temp;
+            let hum = d.list[i].main.humidity;
+          
+          let html = (`
+          <div class="card">
+              <div class="card-body">
+                  <p class="title">${DoW}</p>
+                  <p><img class="icon" src=${icon}></p>
+                  <p class="wx">${temp}</p>
+                  <p class="temps"><span>Temp:</span>${temp}</p>
+              </div>
+          </div>
+          `)
+          newHTML = newHTML + html;
+        }
+
+  
+  
+  
+       newD.innerHTML = newHTML;  
+    
+       j.appendChild(newD)
+/*
+    <div class="row">
+        <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+
+*/
+
+      }) 
+    
+      
        }
 
-    function getUVIndex(lat,lon){ 
-    let d=[],uvi="";         
-    fetch(`http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${APIKey}`)
-    .then(function(res) { return res.json() }) // Convert data to json
-    .then(function(d){
-        ab=d.value;
-        console.log(ab);
-        })
-    }
+
 
            // http://api.openweathermap.org/data/2.5/uvi?lat={lat}&lon={lon}&appid={API key}
 
