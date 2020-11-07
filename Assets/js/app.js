@@ -1,28 +1,8 @@
 // Need an app that has two columns - first is a selector
 const APIKey = "da610bb405b7ea4f8c0a45c01b2af668";
 let cityName = "",UVIndex="";
-let cArray = {};
+let cArray = [];
 let forecast = [];
-var ab ="";
-
-//const jsonLocations = require('../files/city.list.json');
-
-//const Locations = JSON.parse(jsonLocations);
-//
-
-//console.log(Locations);
-
-// api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
-
-// api.openweathermap.org/data/2.5/weather?q={city name},{state code}&appid={API key}
-
-// api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid={API key}
-
-// api.openweathermap.org/data/2.5/forecast?q=London&appid={API key}
-
-//icons
-//("src", "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png");
-//******************* *
 
 // function - get the city name
 function searchCity(){
@@ -34,6 +14,7 @@ function searchCity(){
         storCityList(cityName);
     }
    //go and fetch the forecast
+  buildCityButtons();
   fetchForecast(cityName);
 }
 
@@ -69,21 +50,18 @@ function buildCityButtons(){
             cityMenu.appendChild(newF); 
             fetchForecast("London");
         }
-    }
-    /*
-      var ansForm=document.querySelector("#ansForm");
-      // add event listener for the form created
     
-
-      ansForm.addEventListener('click', (event) => {
+    
+      var btnSelect=document.querySelector("#cityChoice");
+      // add event listener for the form created
+        btnSelect.addEventListener('click', (event) => {
         const isButton = event.target.nodeName === 'BUTTON';
         event.preventDefault();
         cAns = event.target.id;
         console.log (cAns);
-        checkans(ans,cAns,explain);
-        console.dir(event.target.id);
+        fetchForecast(cAns);
       })
-      */
+}
 
 
 function fetchForecast(city){   
@@ -123,46 +101,35 @@ function fetchForecast(city){
           let j = document.querySelector('#fiveDay');
           let newD = document.createElement("div");
           newD.setAttribute("class","row col-12");
-          let newHTML = " <h3>5-Day Forecast</h3>"; 
+          let newHTML = '<div class="container-fluid text-center">5-Day Forecast</div><div class="col-12 container" id="forecast">'; 
           let count = d.cnt;
           for (let i = 3; i < count; i += 8){
             let date = d.list[i].dt_txt.split(" ");
             today = date[0];
             console.log(today);
-            let DoW = new Intl.DateTimeFormat('en-US', {weekday: 'long'}).format(new Date(today).getDay());
+            
             let icon =  `'http://openweathermap.org/img/w/${d.list[i].weather[0].icon}.png'`;
             let temp = d.list[i].main.temp;
             let hum = d.list[i].main.humidity;
           
           let html = (`
-          <div class="card">
+          <div class="col rounded">
+            <div class="card">
               <div class="card-body">
-                  <p class="title">${DoW}</p>
+                  <p class="title">${today}</p>
                   <p><img class="icon" src=${icon}></p>
-                  <p class="wx">${temp}</p>
-                  <p class="temps"><span>Temp:</span>${temp}</p>
+                  <p class="temps">Temperature: ${temp} &deg;F</p>
+                  <p class="temps">Humidity: ${hum} %</p>
+              </div>
               </div>
           </div>
           `)
           newHTML = newHTML + html;
         }
-
-  
-  
-  
        newD.innerHTML = newHTML;  
-    
        j.appendChild(newD)
-/*
-    <div class="row">
-        <div class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
-
-*/
-
-      }) 
-    
-      
-       }
+      })   
+   }
 
 
 
@@ -173,14 +140,19 @@ function fetchForecast(city){
 
 //function - create a localstorage array for that  city and and the city to the cities list
 function storCityList(city){
-        let cname = [];
+        console.log(typeof(cArray))
         cArray.push(city);
         localStorage.setItem("cities",JSON.stringify(cArray));
 }
 
+function clearHist(){
+localStorage.removeItem("cities");
+locatin.reload();
+}
 
 
 //populate the buttons for places already visited
 buildCityButtons();
 //Action if Search is used instead
 document.querySelector("#search-button").addEventListener("click",searchCity);
+document.querySelector("#clear-history").addEventListener("click",clearHist);
