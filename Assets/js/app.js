@@ -7,15 +7,20 @@ let forecast = [];
 // function - get the city name
 function searchCity(){
 
+    if(localStorage.getItem("cities")){
+        cArray = JSON.parse(localStorage.getItem("cities"));
+    }
+
     if(document.querySelector('#fiveDayCards')){
         var myobj = document.querySelector('#fiveDayCards');
         myobj.remove();
       }
-    //create the list of all cities so we can use them
+  
     cityName = document.querySelector("#city-nm").value;
-    //sotre City for the next time
-    if(!document.querySelector("#"+cityName.toUpperCase())){
-        storCityList(cityName);
+ 
+    let upperCity = cityName.toUpperCase();
+    if(!cArray.includes(upperCity)){
+        storCityList(upperCity);
         if(document.querySelector("#cityChoice")){
         newF =document.querySelector("#cityChoice");
         let newIn = document.createElement("button");
@@ -38,14 +43,12 @@ function buildCityButtons(){
     let newF = document.createElement("form");
     newF.setAttribute("id","cityChoice");
     newF.setAttribute("class","btn-group-vertical p-1")
-    console.log("in functin")
     if(localStorage.getItem("cities")){
         let fr = document.querySelector("#FirstRun")
         if(fr){fr.remove()}
         //cArray = localStorage.getItem("cities");
        
         cArray= JSON.parse(localStorage.getItem("cities"));
-        console.log(cArray.length);
         for (let i=0; i < cArray.length; i++){
             let city = cArray[i];
             let newIn = document.createElement("button");
@@ -73,7 +76,6 @@ function buildCityButtons(){
         const isButton = event.target.nodeName === 'BUTTON';
         event.preventDefault();
         cAns = event.target.id;
-        console.log (cAns);
         fetchForecast(cAns);
       })
 }
@@ -90,11 +92,6 @@ function fetchForecast(city){
     .then(function(data){
        lat = data.coord.lat;
        lon = data.coord.lon;
-      /*
-       var minTemp = (((data.main.temp_min - 273.15) * 9/5) + 32).toFixed(2);
-       var maxTemp = (((data.main.temp_max - 273.15) * 9/5) + 32).toFixed(2);
-       var currTemp =((( data.main.temp  - 273.15) * 9/5) + 32).toFixed(2);
-      */
        var minTemp = data.main.temp_min;
        var maxTemp = data.main.temp_max;
        var currTemp =data.main.temp;
@@ -124,7 +121,6 @@ function fetchForecast(city){
       fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${APIKey}`)
       .then(function(res) { return res.json() }) // Convert data to json
       .then(function(d){
-          console.log(d)
           let j = document.querySelector('#fiveDay');
           let newD = document.createElement("div");
           newD.setAttribute("id","fiveDayCards");
@@ -134,7 +130,6 @@ function fetchForecast(city){
           for (let i = 3; i < count; i += 8){
             let date = d.list[i].dt_txt.split(" ");
             today = date[0];
-            console.log(today);
             
             let icon =  `'http://openweathermap.org/img/w/${d.list[i].weather[0].icon}.png'`;
             let temp = d.list[i].main.temp;
@@ -168,7 +163,6 @@ function fetchForecast(city){
 
 //function - create a localstorage array for that  city and and the city to the cities list
 function storCityList(city){
-        console.log(typeof(cArray))
         cArray.push(city);
         localStorage.setItem("cities",JSON.stringify(cArray));
 }
