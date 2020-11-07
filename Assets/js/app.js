@@ -1,6 +1,6 @@
 // Need an app that has two columns - first is a selector
 const APIKey = "da610bb405b7ea4f8c0a45c01b2af668";
-let cityName = "";
+let cityName = "",UVIndex="";
 let cArray = {};
 let forecast = [];
 
@@ -21,15 +21,7 @@ let forecast = [];
 
 //icons
 //("src", "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png");
-
-
-
-
-
-
-
 //******************* *
-
 
 // function - get the city name
 function searchCity(){
@@ -68,13 +60,13 @@ function buildCityButtons(){
             newF.appendChild(newIn);
          }
             cityMenu.appendChild(newF); 
-
+            fetchForecast(cArray[0]);
         } else {
             let newP = document.createElement("p");
             newP.setAttribute("id","FirstRun");
-            newP.innerText = "No History available yet"
+            newP.innerText = "No history wil show info for London"
             cityMenu.appendChild(newF); 
-
+            fetchForecast("London");
         }
     }
     /*
@@ -101,35 +93,33 @@ function fetchForecast(city){
        console.log(data);
        lat = data.coord.lat;
        lon = data.coord.lon;
+       getUVIndex(lat,lon);
        var minTemp = (((data.main.temp_min - 273.15) * 9/5) + 32).toFixed(2);
        var maxTemp = (((data.main.temp_max - 273.15) * 9/5) + 32).toFixed(2);
        var currTemp =((( data.main.temp  - 273.15) * 9/5) + 32).toFixed(2);
        
-        var newHtml ="<h2>" + data.name + ",   " + data.sys.state + "  " + data.sys.country + "</h2>" +
-           "<h3><strong>Wind Speed</strong>: " + data.wind.speed + "</h3>" +
-            "<h3><strong>Weather</strong>: <img src='http://openweathermap.org/img/w/" + data.weather[0].icon + ".png'>" + data.weather[0].main + "</h3>" +
-            "<h3><strong>Description</strong>: " + data.weather[0].description + "</h3>" +
-            "<h4><strong>Temperature</strong>: " + currTemp+ "&deg;F</h4>" +
-            "<h3><strong>Pressure</strong>: " + data.main.pressure + "hPa</h3>" +
-            "<h3><strong>Humidity</strong>: " + data.main.humidity + " %</h3>" +
-            "<h5><strong>Temperature Range</strong>: " + minTemp + "&deg;F - " + maxTemp + "&deg;F</h5>"
-            "<h3><strong>Wind Speed</strong>: " + data.wind.speed + "m/s</h3>" +
-            "<h3><strong>Wind Direction</strong>: " + data.wind.deg + "&deg;</h3>";
+        var newHtml ="<h2>" + data.name + ",   " + new Date().toLocaleDateString() + "</h2>" +
+           "<br>Temperature</strong>: " + currTemp+ " &deg;F" +
+           "<br>Humidity</strong>: " + data.main.humidity + " %" +
+           "<br>Wind Speed</strong>: " + data.wind.speed + "mph" +
+           "<br>UV Index</strong>: " + UVIndex + "";
             document.querySelector('#weather-details').innerHTML = newHtml;
             });
+       }
 
-    //Get the UV Index
+    function getUVIndex(lat,lon){ 
+    let d="",uvi="";         
     fetch(`http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${APIKey}`)
     .then(function(res) { return res.json() }) // Convert data to json
     .then(function(d){
-        console.log(d) })
+        UVIndex=d.value;
+        console.log(d,UVIndex); 
+        })
+    }
 
            // http://api.openweathermap.org/data/2.5/uvi?lat={lat}&lon={lon}&appid={API key}
 
             
-        }
-
-
 
 
 //function - create a localstorage array for that  city and and the city to the cities list
