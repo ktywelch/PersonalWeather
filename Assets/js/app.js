@@ -3,6 +3,7 @@ const APIKey = "da610bb405b7ea4f8c0a45c01b2af668";
 let cityName = "",UVIndex="";
 let cArray = {};
 let forecast = [];
+var ab ="";
 
 //const jsonLocations = require('../files/city.list.json');
 
@@ -93,27 +94,36 @@ function fetchForecast(city){
        console.log(data);
        lat = data.coord.lat;
        lon = data.coord.lon;
-       getUVIndex(lat,lon);
+      
        var minTemp = (((data.main.temp_min - 273.15) * 9/5) + 32).toFixed(2);
        var maxTemp = (((data.main.temp_max - 273.15) * 9/5) + 32).toFixed(2);
        var currTemp =((( data.main.temp  - 273.15) * 9/5) + 32).toFixed(2);
        
-        var newHtml ="<h2>" + data.name + ",   " + new Date().toLocaleDateString() + "</h2>" +
-           "<br>Temperature</strong>: " + currTemp+ " &deg;F" +
-           "<br>Humidity</strong>: " + data.main.humidity + " %" +
-           "<br>Wind Speed</strong>: " + data.wind.speed + "mph" +
-           "<br>UV Index</strong>: " + UVIndex + "";
+        var newHtml ='<h2 id="cityDetails">' + data.name + "   " + new Date().toLocaleDateString() + "</h2>" +
+           "<p>Temperature</strong>: " + currTemp+ " &deg;F" + "</p>" +
+           "<p>Humidity</strong>: " + data.main.humidity + " %" +"</p>" +
+           "<p>Wind Speed</strong>: " + data.wind.speed + "mph" +"</p>"  
             document.querySelector('#weather-details').innerHTML = newHtml;
             });
+
+      fetch(`http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${APIKey}`)
+      .then(function(res) { return res.json() }) // Convert data to json
+      .then(function(d){
+         let uvi=d.value;
+         let newP = document.createElement("p");
+         newP.innerText = "UV Index: " + uvi;
+         let j = document.querySelector('#weather-details');
+         j.appendChild(newP);
+                })      
        }
 
     function getUVIndex(lat,lon){ 
-    let d="",uvi="";         
+    let d=[],uvi="";         
     fetch(`http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${APIKey}`)
     .then(function(res) { return res.json() }) // Convert data to json
     .then(function(d){
-        UVIndex=d.value;
-        console.log(d,UVIndex); 
+        ab=d.value;
+        console.log(ab);
         })
     }
 
