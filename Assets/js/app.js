@@ -102,14 +102,14 @@ function fetchForecast(city){
        
         var newHtml ='<div class="order-1 p-2" bd-highlight><h2 id="cityDetails">' + data.name + 
             "   (" + new Date().toLocaleDateString() + 
-         ") <img src='http://openweathermap.org/img/w/"+data.weather[0].icon + ".png'></h2></div>" +
+         ") <img src='https://openweathermap.org/img/w/"+data.weather[0].icon + ".png'></h2></div>" +
            '<div class="order-2 p-2" bd-highlight><p>Temperature</strong>: ' + currTemp+ " &deg;F" + "</p></div>" +
            '<div class="order-4 p-2" bd-highlight><p>Humidity</strong>: ' + data.main.humidity + ' %' +'</p></div>' +
            '<div class="order-5 p-2" bd-highlight><p>Wind Speed</strong>: ' + data.wind.speed + ' mph' +'</p></div>'  
             document.querySelector('#weather-details').innerHTML = newHtml;
             
 
-        fetch(`http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${APIKey}`)
+        fetch(`https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${APIKey}`)
          .then(function(res) { return res.json() }) // Convert data to json
          .then(function(d){
            let uvi=d.value;
@@ -124,7 +124,7 @@ function fetchForecast(city){
                 })  
             });
 
-      fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${APIKey}`)
+      fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${APIKey}`)
       .then(function(res) { return res.json() }) // Convert data to json
       .then(function(d){
         console.log(d);
@@ -140,7 +140,7 @@ function fetchForecast(city){
             today = date[0];
             let dayOfWeek = new Date(date).toLocaleString('en-us', {  weekday: 'long' });
             let usDay = new Date(date).toLocaleString('en-us', {  dateStyle: 'short' });
-            let icon =  `'http://openweathermap.org/img/w/${d.list[i].weather[0].icon}.png'`;
+            let icon =  `'https://openweathermap.org/img/w/${d.list[i].weather[0].icon}.png'`;
             let temp = d.list[i].main.temp;
             let hum = d.list[i].main.humidity;
           
@@ -163,11 +163,6 @@ function fetchForecast(city){
        j.appendChild(newD)
       })   
    }
-
-
-
-           // http://api.openweathermap.org/data/2.5/uvi?lat={lat}&lon={lon}&appid={API key}
-
             
 function capitalizeFirstLetter(string) {
     let newString ="";
