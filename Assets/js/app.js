@@ -96,27 +96,30 @@ function fetchForecast(city){
        var maxTemp = data.main.temp_max;
        var currTemp =data.main.temp;
        
-        var newHtml ='<h2 id="cityDetails">' + data.name + "   (" + new Date().toLocaleDateString() + 
-         ") <img src='http://openweathermap.org/img/w/"+data.weather[0].icon + ".png'></h2>" +
-           "<p>Temperature</strong>: " + currTemp+ " &deg;F" + "</p>" +
-           "<p>Humidity</strong>: " + data.main.humidity + " %" +"</p>" +
-           "<p>Wind Speed</strong>: " + data.wind.speed + "mph" +"</p>"  
+        var newHtml ='<div class="order-1 p-2" bd-highlight><h2 id="cityDetails">' + data.name + 
+            "   (" + new Date().toLocaleDateString() + 
+         ") <img src='http://openweathermap.org/img/w/"+data.weather[0].icon + ".png'></h2></div>" +
+           '<div class="order-2 p-2" bd-highlight><p>Temperature</strong>: ' + currTemp+ " &deg;F" + "</p></div>" +
+           '<div class="order-4 p-2" bd-highlight><p>Humidity</strong>: ' + data.main.humidity + ' %' +'</p></div>' +
+           '<div class="order-5 p-2" bd-highlight><p>Wind Speed</strong>: ' + data.wind.speed + ' mph' +'</p></div>'  
             document.querySelector('#weather-details').innerHTML = newHtml;
-            });
+            
 
-      fetch(`http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${APIKey}`)
-      .then(function(res) { return res.json() }) // Convert data to json
-      .then(function(d){
-         let uvi=d.value;
-         let newP = document.createElement("span");
-         newP.innerText = "UV Index: " 
-         newB = document.createElement("button")
-         newB.setAttribute("class","uv-index");
-         newB.innerText = uvi;
-         let j = document.querySelector('#weather-details');
-         j.appendChild(newP);
-         j.appendChild(newB);
+        fetch(`http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${APIKey}`)
+         .then(function(res) { return res.json() }) // Convert data to json
+         .then(function(d){
+           console.log(d);
+           let uvi=d.value;
+           let ubtn = "";
+           let newP = document.createElement("div");
+           if (uvi<3) {ubtn='uv-index-good'} else if(uvi >= 3 && uvi < 6) {ubtn='uv-index-med'}
+           else if(uvi >= 7 && uvi < 7) {ubtn='uv-index-pbad'} else {ubtn='uv-index-bad'}
+           let newHTML = `<div class="order-6 p-2" bd-highlight>UV Index: <button class = "${ubtn}">${uvi}</button></div>`
+            newP.innerHTML = newHTML;
+            let j = document.querySelector('#weather-details');
+           j.appendChild(newP);
                 })  
+            });
 
       fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${APIKey}`)
       .then(function(res) { return res.json() }) // Convert data to json

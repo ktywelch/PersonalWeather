@@ -8,15 +8,15 @@
     crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
-    <title>Weatherman</title>
+    <title>site to keep get weather from cities I frequent</title>
 </head>
 <body>
     <nav class="navbar">
-        <span class="navbar-brand mb-0 h1 w-100 text-center">Weatherman</span>
+        <span class="navbar-brand mb-0 h1 w-100 text-center">Personal Weather</span>
     </nav>
     <div class="container">
         <div class="row">
-            <div class="col-4 bg-light">
+            <div class="col">
                 <p class="search-header my-1">Search City</p>
                 <div class="input-group mb-3">
                     <input id="city-nm" type="text" placeholder="Enter city name" aria-label="Enter city name" value="">
@@ -33,11 +33,9 @@
                 </div>   
             </div>
             <div class="col-8">
-              <div class="row mr-0">
-               <div class="col-12 border border-dark m-3 rounded">
-                 <div class="col-12 container" id="weather-details">
-        
-                            
+            <div class="row mr-0">
+               <div class="border border-dark rounded">
+                 <div class="d-block flex-nowrap bd-highlight align-items" style="width: 100%;" id="weather-details">          
     
                         
                     </div>

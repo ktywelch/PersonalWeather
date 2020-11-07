@@ -49,15 +49,40 @@
     font-weight: normal;
     margin-top: 10px;
 }
-.uv-index {
+.uv-index-good {
         background: green;
         border: none;
         color: white;
-      
         text-align: center;
         text-decoration: none;
         display: inline-block;
         font-size: 16px;
       }
-
+.uv-index-med {
+        background: rgb(241, 241, 113);
+        border: none;
+        color: black;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+      }
+.uv-index-pbad {
+        background: darkorange;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+      }     
+.uv-index-bad {
+        background: red;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+      }
 
