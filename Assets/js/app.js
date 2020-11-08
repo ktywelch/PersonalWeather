@@ -11,10 +11,8 @@ function searchCity(){
   document.querySelector("#city-nm").value = '';
    //Validate that there is something when we click on search
    if (cityName == "") {
-    document.querySelector('#section-header').innerHTML='Please input a City Name<br>Waiting 3 seconds'; 
-    setTimeout(() => {location.reload();}, 3000);
-    //fetching default if there is one in history will use the first one in history
-    fetchForecast("London");
+    document.querySelector('#section-header').innerHTML='Please input a City Name<br>'; 
+    setTimeout(() => {location.reload();}, 2000);
     return;
     //document.getElementById('errors').innerHTML="*Please enter a username*";
     //return false;
@@ -57,11 +55,11 @@ function buildCityButtons(){
     newF.setAttribute("class","btn-group-vertical p-1")
     if(localStorage.getItem("cities")){
         let fr = document.querySelector("#FirstRun")
-        if(fr){fr.remove()}
-       
+        if(fr){fr.remove()} 
         cArray= JSON.parse(localStorage.getItem("cities"));
-        for (let i=0; i < cArray.length; i++){
+            for (let i=0; i < cArray.length; i++){
             let city = cArray[i];
+            //This routine changes the city to meet general naming conventions
             let cityN = capitalizeFirstLetter(city.toLowerCase());  
             let newIn = document.createElement("button");
             newIn.setAttribute("class","border  q-button city-button");
@@ -70,30 +68,30 @@ function buildCityButtons(){
             newIn.textContent = cityN;
             newIn.id = city;
             newF.appendChild(newIn);
-         }
-            cityMenu.appendChild(newF); 
-            fetchForecast(cArray[0]);
-        } else {
-            let newP = document.createElement("p");
-            newP.setAttribute("id","FirstRun");
-            newP.innerText = "No history wil show info for London"
-            cityMenu.appendChild(newF); 
-            fetchForecast("London");
-        }
-    
-    
-      var btnSelect=document.querySelector("#cityChoice");
-      // add event listener for the form created
-        btnSelect.addEventListener('click', (event) => {
-        const isButton = event.target.nodeName === 'BUTTON';
-        event.preventDefault();
-        cAns = event.target.id;
-        fetchForecast(cAns);
-      })
-}
+            }
+            cityMenu.appendChild(newF);
+            fetchForecast(cArray[0]);            
+            }
+         var btnSelect=document.querySelector("#cityChoice");
+         // add event listener for the form created
+          if(btnSelect != undefined){
+          btnSelect.addEventListener('click', (event) => {
+           const isButton = event.target.nodeName === 'BUTTON';
+           event.preventDefault();
+           cAns = event.target.id;
+           fetchForecast(cAns);
+           })   
+           } else {
+          //if this is the first time and nothing in local storage show weather for London
+          fetchForecast("London");
+      }
+      
+      }
+
 
 
 function fetchForecast(city){  
+  //clear the five day cards if they are there to prevent multiple
    if(document.querySelector('#fiveDayCards')){
         var myobj = document.querySelector('#fiveDayCards');
         myobj.remove();
@@ -108,12 +106,12 @@ function fetchForecast(city){
        var maxTemp = data.main.temp_max;
        var currTemp =data.main.temp;
        
-        var newHtml =`<div class="order-1 p-2" bd-highlight><h3 id="cityDetails">${data.name} 
+        var newHtml =`<div class="order-1 p-2"><h3 id="cityDetails">${data.name} 
           <span style="color: black;font-weight: normal;">   (${new Date().toLocaleDateString()} 
           )</span> <img src='https://openweathermap.org/img/w/${data.weather[0].icon}.png'></h2></div>
-          <div class="order-2 p-2" bd-highlight><p>Temperature</strong>: ${currTemp} &deg;F</p></div>
-          <div class="order-4 p-2" bd-highlight><p>Humidity</strong>: ${data.main.humidity} %</p></div>
-          <div class="order-5 p-2" bd-highlight><p>Wind Speed</strong>: ${data.wind.speed} mph</p></div>`;
+          <div class="order-2 ml-4"><p>Temperature</strong>: ${currTemp} &deg;F</p></div>
+          <div class="order-4 ml-4"><p>Humidity</strong>: ${data.main.humidity} %</p></div>
+          <div class="order-5 ml-4"><p>Wind Speed</strong>: ${data.wind.speed} mph</p></div>`;
 
           document.querySelector('#weather-details').innerHTML = newHtml;
             
@@ -125,9 +123,9 @@ function fetchForecast(city){
            let ubtn = "";
            let newP = document.createElement("div");
            if (uvi<3) {ubtn='uv-index-good'} else if(uvi >= 3 && uvi < 6) {ubtn='uv-index-med'}
-           else if(uvi >= 7 && uvi < 7) {ubtn='uv-index-pbad'} else if (uvi >= 8 && uvi < 11) {ubtn='uv-index-bad'} 
+           else if(uvi >= 7 && uvi < 8) {ubtn='uv-index-pbad'} else if (uvi >= 8 && uvi < 11) {ubtn='uv-index-bad'} 
            else {ubtn='uv-index-vbad'};
-           let newHTML = `<div class="order-6 p-2" bd-highlight>UV Index: <button class = "${ubtn}">${uvi}</button></div>`
+           let newHTML = `<div class="order-6 ml-4 mb-4">UV Index: <button class = "${ubtn}">${uvi}</button></div>`
             newP.innerHTML = newHTML;
             let j = document.querySelector('#weather-details');
            j.appendChild(newP);
@@ -143,9 +141,9 @@ function fetchForecast(city){
           let newD = document.createElement("div");
           newD.setAttribute("id","fiveDayCards");
           newD.setAttribute("class","row");
-          let newHTML = '<div class="container text-center mt-3"><h3>5-Day Forecast<h3></div><div class="container" id="forecast">'; 
+          let newHTML = '<div class="container text-center mt-3"><h3>5-Day Forecast<h3></div><div class="container w-100" id="forecast">'; 
           let count = d.cnt;
-          for (let i = 3; i < count; i += 8){
+          for (let i = 0; i < count; i += 8){
             let date = d.list[i].dt_txt.split(" ");
             today = date[0];
             let dayOfWeek = new Date(date).toLocaleString('en-us', {  weekday: 'long' });

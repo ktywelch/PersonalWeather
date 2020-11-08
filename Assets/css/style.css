@@ -48,7 +48,7 @@ h3{
     flex-wrap: nowrap;
     font-family: 'Helvetica','Arial',sans-serif;
     margin: 0px;
-    width: 50em;
+    width: 60em;
 }
 .card {
     flex-basis: max-content;
