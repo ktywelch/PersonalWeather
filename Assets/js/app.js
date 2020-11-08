@@ -115,7 +115,8 @@ function fetchForecast(city){
            let ubtn = "";
            let newP = document.createElement("div");
            if (uvi<3) {ubtn='uv-index-good'} else if(uvi >= 3 && uvi < 6) {ubtn='uv-index-med'}
-           else if(uvi >= 7 && uvi < 7) {ubtn='uv-index-pbad'} else {ubtn='uv-index-bad'}
+           else if(uvi >= 7 && uvi < 7) {ubtn='uv-index-pbad'} else if (uvi >= 8 && uvi < 11) {ubtn='uv-index-bad'} 
+           else {ubtn='uv-index-vbad'};
            let newHTML = `<div class="order-6 p-2" bd-highlight>UV Index: <button class = "${ubtn}">${uvi}</button></div>`
             newP.innerHTML = newHTML;
             let j = document.querySelector('#weather-details');
