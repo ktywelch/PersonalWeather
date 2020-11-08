@@ -22,6 +22,7 @@ function searchCity(){
 
   
    // If we already have this city in citybuttons ignore or add to the bottom!
+   //should only do this if the fetch is ok... going to put this in a function!
     let upperCity = cityName.toUpperCase();
     let cityN = capitalizeFirstLetter(cityName.toLowerCase());
     if(!cArray.includes(upperCity)){
