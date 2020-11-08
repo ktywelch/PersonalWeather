@@ -122,7 +122,6 @@ function fetchForecast(city){
            else {ubtn='uv-index-vbad'};
            let newHTML2 = `<div class="order-6 ml-4 mb-4">UV Index: <button class = "${ubtn}">${uvi}</button></div>`
             newP.innerHTML = newHTML2;
-            console.log("here");
             let j = document.querySelector('#weather-details');
            j.appendChild(newP);
                 }).catch(function() {
