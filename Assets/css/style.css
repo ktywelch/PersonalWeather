@@ -1,6 +1,12 @@
 .navbar{
     background-color: lightblue;
 }
+#city-nm,#search-button{
+display:inline-block;
+background:none;
+
+height: 50px;
+}
 
 #section-header{
     color: red;
