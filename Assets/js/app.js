@@ -53,8 +53,7 @@ function buildCityButtons(){
         cArray= JSON.parse(localStorage.getItem("cities"));
         for (let i=0; i < cArray.length; i++){
             let city = cArray[i];
-            let cityN = capitalizeFirstLetter(city.toLowerCase());
-            console.log(cityN);     
+            let cityN = capitalizeFirstLetter(city.toLowerCase());  
             let newIn = document.createElement("button");
             newIn.setAttribute("class","border  q-button city-button");
             newIn.name = city;
