@@ -12,7 +12,7 @@ In addition once we have the city information we use `localStorage` to store the
 
 ## General info
 The objective is to create a personalized weather portal that allows me to pull the weather for varies cities and store which ones I use regularly.
-[link to Day Planner!](https://ktywelch.github.io/PersonalWeather/)
+[My Weather App!](https://ktywelch.github.io/PersonalWeather/)
 
 	
 ## Technologies
@@ -25,29 +25,23 @@ Project is created with:
 To run this project, install is a simple download and extraction of the site and access to the internet is required the code relies on bootstrap style sheet and assoicated java scripts.
 
 ## User Guide
-The solution is designed to allow a user to provide a daily planner so that time can be effectively managed.
+The weather app will allow a user to search for a city and provide the current weather for the city and show the 5 day forecast.
+Based on ![World Health Organization's publicatin ](https://www.who.int/uv/publications/en/UVIGuide.pdf) the color of the button will adjust based on the value of the UVI.
 
-Behavior to meet the following requirements:
-* GIVEN a weather dashboard with form inputs
-* WHEN I search for a city
-* THEN I am presented with current and future conditions for that city and that city is added to the search history
-* WHEN I view current weather conditions for that city
-* THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
-* WHEN I view the UV index
-* THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
-* WHEN I view future weather conditions for that city
-* THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity
-* WHEN I click on a city in the search history
-* THEN I am again presented with current and future conditions for that city
+
+Application includes the following features: 
+* A weather dashboard with form that allows search for a city.
+* When selected user is  presented with current and future conditions for that city and that city is added to the search history
+* The view of the current weather conditions selected city shows the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
+* The UV index a color that indicates whether the conditions are favorable, moderate, or severe
+* User is also presented future weather conditions for that city in a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity
+* If a city in from the search history is selected the current and future conditions for that city are displayed.
 
 ![ScreenShot](./Assets/images/out.gif)
 
 ## credits
-The majaority of code used was developed by review the class materials from the UCB boot camp and using javascript and moment.js. Used the fonts and items from the bootstrap 4 samples sample documents. 
+The code used was developed by review the class materials from the UCB boot camp and using javascript and moment.js. Used the fonts and items from the bootstrap 4 samples sample documents. In addition to using resources like StackOverflow, W3Schools and MDN Webdocs. 
 
 
-Peer study group: Lucah and Mike
-
-
-Code Validated by https://validator.w3.org/
+Site Validated by https://validator.w3.org/
 

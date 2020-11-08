@@ -151,8 +151,8 @@ function fetchForecast(city){
                   <p class="title" style="color: blue;">${dayOfWeek}</p>
                   <p class="title">${usDay}</p>
                   <p><img class="icon" src=${icon}></p>
-                  <p class="temps">Temperature: ${temp} &deg;F</p>
-                  <p class="temps">Humidity: ${hum} %</p>
+                  <p class="temps"><strong>Temperature:</strong> ${temp} &deg;F</p>
+                  <p class="temps"><strong>Humidity:</strong> ${hum} %</p>
               </div>
               </div>
           </div>
