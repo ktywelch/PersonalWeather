@@ -2,6 +2,19 @@
     background-color: lightblue;
 }
 
+#section-header{
+    color: red;
+    text-decoration-style: wavy;
+}
+h2{
+color: blue;
+ font-weight: bold;
+}
+h3{
+    color: blue;
+     font-weight: bold;
+    }
+
 .body{
     font-family: 'Helvetica','Arial',sans-serif;    
 }
@@ -16,8 +29,9 @@
     color: maroon;
 }
 .city-button:hover{
-    background-color: plum;
-    color: maroon;
+    background-color:  palegoldenrod;
+    color: blue;
+    font-weight: bold;
 }
 #forecast {
     color: #222;

@@ -6,17 +6,27 @@ let forecast = [];
 
 // function - get the city name
 function searchCity(){
-
+  cityName = document.querySelector("#city-nm").value;
+  //now that we have the value let's clear the value
+  document.querySelector("#city-nm").value = '';
+   //Validate that there is something when we click on search
+   if (cityName == "") {
+    document.querySelector('#section-header').innerHTML='Please input a City Name<br>Waiting 3 seconds'; 
+    setTimeout(() => {location.reload();}, 3000);
+    //fetching default if there is one in history will use the first one in history
+    fetchForecast("London");
+    return;
+    //document.getElementById('errors').innerHTML="*Please enter a username*";
+    //return false;
+    }
     if(localStorage.getItem("cities")){
         cArray = JSON.parse(localStorage.getItem("cities"));
     }
-
     if(document.querySelector('#fiveDayCards')){
         var myobj = document.querySelector('#fiveDayCards');
         myobj.remove();
       }
   
-    cityName = document.querySelector("#city-nm").value;
    // If we already have city buttons if this is new one add to the bottom!
     let upperCity = cityName.toUpperCase();
     let cityN = capitalizeFirstLetter(cityName.toLowerCase());
@@ -48,7 +58,6 @@ function buildCityButtons(){
     if(localStorage.getItem("cities")){
         let fr = document.querySelector("#FirstRun")
         if(fr){fr.remove()}
-        //cArray = localStorage.getItem("cities");
        
         cArray= JSON.parse(localStorage.getItem("cities"));
         for (let i=0; i < cArray.length; i++){
@@ -99,13 +108,14 @@ function fetchForecast(city){
        var maxTemp = data.main.temp_max;
        var currTemp =data.main.temp;
        
-        var newHtml ='<div class="order-1 p-2" bd-highlight><h2 id="cityDetails">' + data.name + 
-            "   (" + new Date().toLocaleDateString() + 
-         ") <img src='https://openweathermap.org/img/w/"+data.weather[0].icon + ".png'></h2></div>" +
-           '<div class="order-2 p-2" bd-highlight><p>Temperature</strong>: ' + currTemp+ " &deg;F" + "</p></div>" +
-           '<div class="order-4 p-2" bd-highlight><p>Humidity</strong>: ' + data.main.humidity + ' %' +'</p></div>' +
-           '<div class="order-5 p-2" bd-highlight><p>Wind Speed</strong>: ' + data.wind.speed + ' mph' +'</p></div>'  
-            document.querySelector('#weather-details').innerHTML = newHtml;
+        var newHtml =`<div class="order-1 p-2" bd-highlight><h3 id="cityDetails">${data.name} 
+          <span style="color: black;font-weight: normal;">   (${new Date().toLocaleDateString()} 
+          )</span> <img src='https://openweathermap.org/img/w/${data.weather[0].icon}.png'></h2></div>
+          <div class="order-2 p-2" bd-highlight><p>Temperature</strong>: ${currTemp} &deg;F</p></div>
+          <div class="order-4 p-2" bd-highlight><p>Humidity</strong>: ${data.main.humidity} %</p></div>
+          <div class="order-5 p-2" bd-highlight><p>Wind Speed</strong>: ${data.wind.speed} mph</p></div>`;
+
+          document.querySelector('#weather-details').innerHTML = newHtml;
             
 
         fetch(`https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${APIKey}`)
@@ -133,7 +143,7 @@ function fetchForecast(city){
           let newD = document.createElement("div");
           newD.setAttribute("id","fiveDayCards");
           newD.setAttribute("class","row");
-          let newHTML = '<div class="container text-center mt-3"><h2>5-Day Forecast<h2></div><div class="container" id="forecast">'; 
+          let newHTML = '<div class="container text-center mt-3"><h3>5-Day Forecast<h3></div><div class="container" id="forecast">'; 
           let count = d.cnt;
           for (let i = 3; i < count; i += 8){
             let date = d.list[i].dt_txt.split(" ");
