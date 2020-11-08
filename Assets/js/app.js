@@ -1,6 +1,6 @@
 // Need an app that has two columns - first is a selector
 const APIKey = "da610bb405b7ea4f8c0a45c01b2af668";
-let cityName = "",UVIndex="";
+let cityName = "",UVIndex="",lastCity="";
 let cArray = [];
 let forecast = [];
 
@@ -44,6 +44,7 @@ function searchCity(){
         }
     }
    //go and fetch the forecast
+  lastCity = cityName;
   fetchForecast(cityName);
 }
 
@@ -69,8 +70,8 @@ function buildCityButtons(){
             newIn.id = city;
             newF.appendChild(newIn);
             }
-            cityMenu.appendChild(newF);
-            fetchForecast(cArray[0]);            
+            cityMenu.appendChild(newF);   
+            fetchForecast(cArray[0]);         
             }
          var btnSelect=document.querySelector("#cityChoice");
          // add event listener for the form created
