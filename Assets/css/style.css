@@ -1,11 +1,14 @@
 .navbar{
     background-color: lightblue;
 }
-#city-nm,#search-button{
-display:inline-block;
-background:none;
-
-height: 50px;
+#search-button{
+    display:inline;
+    height: 50px;
+    }
+/* added this to get the button on the same line as the input*/
+#city-nm {
+    height: 50px;  
+    width: 70%;    
 }
 
 #section-header{
