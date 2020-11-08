@@ -54,9 +54,7 @@ function buildCityButtons(){
     let newF = document.createElement("form");
     newF.setAttribute("id","cityChoice");
     newF.setAttribute("class","btn-group-vertical p-1")
-    if(localStorage.getItem("cities")){
-        let fr = document.querySelector("#FirstRun")
-        if(fr){fr.remove()} 
+    if(localStorage.getItem("cities")){ 
         cArray= JSON.parse(localStorage.getItem("cities"));
             for (let i=0; i < cArray.length; i++){
             let city = cArray[i];
