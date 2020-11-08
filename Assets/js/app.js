@@ -148,6 +148,7 @@ function fetchForecast(city){
           for (let i = 0; i < count; i += 8){
             let date = d.list[i].dt_txt.split(" ");
             today = date[0];
+            today = today.replace(/-/g,'/');  // replaces all occurances of "-" with "/"
             let dayOfWeek = new Date(date).toLocaleString('en-us', {  weekday: 'long' });
             let usDay = new Date(date).toLocaleString('en-us', {  dateStyle: 'short' });
             let icon =  `'https://openweathermap.org/img/w/${d.list[i].weather[0].icon}.png'`;
