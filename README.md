@@ -25,8 +25,9 @@ Project is created with:
 To run this project, install is a simple download and extraction of the site and access to the internet is required the code relies on bootstrap style sheet and assoicated java scripts.
 
 ## User Guide
-The weather app will allow a user to search for a city and provide the current weather for the city and show the 5 day forecast.
-Based on [World Health Organization's publication ](https://www.who.int/uv/publications/en/UVIGuide.pdf)  the color of the button will adjust based on the value of the UVI.
+The weather app will allow a user to search for a city and provide the current weather for the city and show the 5 day forecast. The default city is London so on first launch the user should see the weather forcast for London.
+
+In addition based on [World Health Organization's publication ](https://www.who.int/uv/publications/en/UVIGuide.pdf)  the color of the Ultra Violet Index button will adjust based on the value of the UVI.
 
 
 Application includes the following features: 
