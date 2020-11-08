@@ -21,7 +21,7 @@ function searchCity(){
     }
 
   
-   // If we already have this cit in citybuttons ignore or add to the bottom!
+   // If we already have this city in citybuttons ignore or add to the bottom!
     let upperCity = cityName.toUpperCase();
     let cityN = capitalizeFirstLetter(cityName.toLowerCase());
     if(!cArray.includes(upperCity)){
@@ -125,10 +125,10 @@ function fetchForecast(city){
             let j = document.querySelector('#weather-details');
            j.appendChild(newP);
                 }).catch(function() {
-                  console.log("error");
+                  console.log("error-");
               })
             }).catch(function() {
-              console.log("error");
+              console.log("error+");
           })
 
       fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${APIKey}`)
@@ -172,7 +172,7 @@ function fetchForecast(city){
        newD.innerHTML = newHTML3;  
        j.appendChild(newD)
       }).catch(function() {
-        console.log("error");
+        console.log("error1");
     })   
    }
             
