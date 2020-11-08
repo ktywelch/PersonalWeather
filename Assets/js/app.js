@@ -108,6 +108,10 @@ function fetchForecast(city){
         fetch(`https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${APIKey}`)
          .then(function(res) { return res.json() }) //This function converts resules to json
          .then(function(d){
+          if(document.querySelector('#uv-index')){
+            var myobj = document.querySelector('#uv-index');
+            myobj.remove();
+          } 
            let uvi=d.value;
            let ubtn = "";
            let newP = document.createElement("div");
@@ -119,7 +123,7 @@ function fetchForecast(city){
             newP.innerHTML = newHTML2;
             console.log("here");
             let j = document.querySelector('#weather-details');
-           //j.appendChild(newP);
+           j.appendChild(newP);
                 }).catch(function() {
                   console.log("error");
               })
